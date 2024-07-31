@@ -31,6 +31,10 @@ public class Category {
     @LastModifiedDate
     private LocalDateTime updatedAt;
     
+    public Category() {
+        this.id = UUID.randomUUID();
+    }
+
     public String getId() {
         return id.toString();
     }

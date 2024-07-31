@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,13 +33,20 @@ public class Clothes {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    private String season;
+    @Enumerated(EnumType.STRING)
+    private Occasion occasion;
+    @Enumerated(EnumType.STRING)
+    private Season season;
     private Double price;
     private Long stock;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public Clothes() {
+        this.id = UUID.randomUUID();
+    }
 
     public String getId() {
         return id.toString();
@@ -60,10 +69,10 @@ public class Clothes {
     public void setCategory(Category category) {
         this.category = category;
     }
-    public String getSeason() {
+    public Season getSeason() {
         return season;
     }
-    public void setSeason(String season) {
+    public void setSeason(Season season) {
         this.season = season;
     }
     public Double getPrice() {
