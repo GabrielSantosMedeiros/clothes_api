@@ -1,5 +1,7 @@
 package com.example.clothes_api.services;
 
+import java.util.UUID;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,43 @@ public class CategoryService {
             category.getCreatedAt(),
             category.getUpdatedAt()
         );
+    }
+
+    public CategoryViewDTO getCategoryById(UUID id) {
+        Category category = categoryRepository.findById(id).get();
+        return new CategoryViewDTO(
+            category.getId(), 
+            category.getName(), 
+            category.getCreatedAt(), 
+            category.getUpdatedAt()
+        );
+    }
+
+    public CategoryViewDTO getCategoryByName(String name) {
+        Category category = categoryRepository.findByName(name).get();
+        return new CategoryViewDTO(
+            category.getId(), 
+            category.getName(), 
+            category.getCreatedAt(), 
+            category.getUpdatedAt()
+        );
+    }
+
+    public CategoryViewDTO updateCategory(UUID id, CategoryAddDTO dto) {
+        Category categoryUpdated = categoryRepository.findById(id).get();
+        BeanUtils.copyProperties(dto, categoryUpdated);
+        categoryRepository.save(categoryUpdated);
+        return new CategoryViewDTO(
+            categoryUpdated.getId(), 
+            categoryUpdated.getName(), 
+            categoryUpdated.getCreatedAt(), 
+            categoryUpdated.getUpdatedAt()
+        );
+    }
+
+    public String deleteCategory(UUID id) {
+        Category category = categoryRepository.findById(id).get();
+        categoryRepository.delete(category);
+        return "category of name" + category.getName() + "has been deleted.";
     }
 }
