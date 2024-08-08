@@ -58,9 +58,23 @@ public class Clothes {
     public Set<Image> getImages() {
         return images;
     }
-    public void setImages(Set<Image> images) {
-        this.images = images;
+
+    public void addImage(Image image) {
+        this.images.add(image);
     }
+
+    public void addImages(Set<Image> imagesList) {
+        this.images.addAll(imagesList);
+    }
+
+    public void removeImage(UUID uuid) {
+        this.images.removeIf(image -> UUID.fromString(image.getId()).equals(uuid));
+    }
+
+    public void removeImages(Set<UUID> uuids) {
+        this.images.removeIf(image -> uuids.contains(UUID.fromString(image.getId())));
+    }
+
     public String getCategory() {
         return category.getName();
     }
