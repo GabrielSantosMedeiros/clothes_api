@@ -1,6 +1,8 @@
 package com.example.clothes_api.services;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,17 @@ public class CategoryService {
             category.getCreatedAt(),
             category.getUpdatedAt()
         );
+    }
+
+    public List<CategoryViewDTO> getAll() {
+        return categoryRepository.findAll()
+            .stream()
+            .map(c -> new CategoryViewDTO(
+                c.getId(), 
+                c.getName(), 
+                c.getCreatedAt(), 
+                c.getUpdatedAt()))
+            .collect(Collectors.toList());
     }
 
     public CategoryViewDTO getCategoryById(UUID id) {

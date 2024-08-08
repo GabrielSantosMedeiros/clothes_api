@@ -1,7 +1,6 @@
 package com.example.clothes_api.models;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -11,25 +10,30 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "categories")
-public class Category {
-    
-    @Id 
+@Table(name = "images")
+public class Image {
+
+    @Id
     private UUID id;
+    @Lob
+    private Byte bytes;
     private String name;
-    @OneToMany(mappedBy = "category")
-    private Set<Clothes> clothes;
+    @ManyToOne
+    @JoinColumn(name = "clothes_id")
+    private Clothes clothes;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    
-    public Category() {
+
+    public Image() {
         this.id = UUID.randomUUID();
     }
 
@@ -39,13 +43,19 @@ public class Category {
     public String getName() {
         return name;
     }
+    public Byte getBytes() {
+        return bytes;
+    }
+    public void setBytes(Byte newBytes) {
+        this.bytes = newBytes;
+    }
     public void setName(String name) {
         this.name = name;
     }
-    public Set<Clothes> getClothes() {
+    public Clothes getClothes() {
         return clothes;
     }
-    public void setClothes(Set<Clothes> clothes) {
+    public void setClothes(Clothes clothes) {
         this.clothes = clothes;
     }
     public LocalDateTime getCreatedAt() {
@@ -53,5 +63,5 @@ public class Category {
     }
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
+    }    
 }

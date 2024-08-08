@@ -29,6 +29,11 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(dto));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") String id) {
         UUID uuid = UUID.fromString(id);
